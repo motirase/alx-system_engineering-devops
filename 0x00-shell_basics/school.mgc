@@ -1,3 +1,2 @@
-0	string  SCHOOL this is a text file
-!:mime text/school
-file -C -m school
+0	string SCHOOL School data
+!:mime School
