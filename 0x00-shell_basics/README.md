@@ -1,2 +1,2 @@
 #!/bin/bash
-pwd display current working directory
+echo 'Task 0.Where am I ?'
