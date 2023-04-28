@@ -1,29 +1,41 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/wait.h>
+
+#define N_ZOMBIES 5
 
 /**
- * main - zombies
+ * infinite_while - loop forever
  *
- * Description: make five zombies
- * Return: 0 for success
+ * Return: Never
+ */
+int infinite_while(void)
+{
+	while (1)
+	{
+		sleep(1);
+	}
+	return (0);
+}
+
+/**
+ * main - spawn zombie processes
+ *
+ * Return: Never
  */
 int main(void)
 {
-	int i;
-	pid_t pidme;
+	int zpid = 0;
+	int znum = 0;
 
-	i = 0;
-	while (i < 5)
+	while (znum++ < N_ZOMBIES)
 	{
-		pidme = fork();
-		if (pidme)
-			printf("Zombie process created, PID: %i\n", pidme);
+		zpid = fork();
+		if (zpid)
+			printf("Zombie process created, PID: %d\n", zpid);
 		else
-			exit(0);
-		i++;
+			return (EXIT_SUCCESS);
 	}
-	sleep(100);
-	return (0);
+	return (infinite_while());
 }
