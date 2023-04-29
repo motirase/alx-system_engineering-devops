@@ -1,14 +1,12 @@
-#define _GNU_SOURCE
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <unistd.h>
 
-#define N_ZOMBIES 5
-
 /**
- * infinite_while - loop forever
+ * infinite_while - a function that creates an infinite loop to make
+ * a program stall
  *
- * Return: Never
+ * Return: 0 (Always for success)
  */
 int infinite_while(void)
 {
@@ -20,22 +18,22 @@ int infinite_while(void)
 }
 
 /**
- * main - spawn zombie processes
+ * main - crates 5 zombie processes
  *
- * Return: Never
+ * Return: 0 (Always for success)
  */
 int main(void)
 {
-	int zpid = 0;
-	int znum = 0;
+	int i;
+	pid_t Zombie;
 
-	while (znum++ < N_ZOMBIES)
+	for (i = 0; i < 5; i++)
 	{
-		zpid = fork();
-		if (zpid)
-			printf("Zombie process created, PID: %d\n", zpid);
-		else
-			return (EXIT_SUCCESS);
+		Zombie = fork();
+		if (!Zombie)
+			return (0);
+		printf("Zombie process created, PID: %d\n", Zombie);
 	}
-	return (infinite_while());
+	infinite_while();
+	return (0);
 }
