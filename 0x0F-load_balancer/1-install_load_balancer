@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-#configures a new Ubuntu machine nginx
-apt-get update
-apt-get install software-properties-common -y
-add-apt-repository ppa:vbernat/haproxy-1.7 -y
-apt-get update
-apt-get install haproxy=1.7.\* -y
-echo "frontend web-front
-        bind *:80
-        default_backend web-backend
-
-backend web-backend
-        balance roundrobin
-        server web1 35.227.47.184:80 check
-        server web2 35.190.188.208:80 check
-" | sudo tee -a /etc/haproxy/haproxy.cfg
-sudo service haproxy start
+# Install the load balanecer
+sudo apt-get -y update
+sudo apt-get -y install haproxy
+echo 'ENABLED=1' >> /etc/default/haproxy
+sudo cp /etc/haproxy/haproxy.cfg .
+cat >> /etc/haproxy/haproxy.cfg << CONFIG
+frontend front
+	bind *:80
+	mode http
+	default_backend back
+backend back
+    balance roundrobin
+    server 1564-web-01 35.227.29.60:80 check
+    server 1564-web-02 54.196.131.110:80 check
+CONFIG
+sudo service haproxy restart
